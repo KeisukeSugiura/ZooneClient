@@ -87,8 +87,8 @@ function setIpcConnectorConfiguration(){
 
     mIpcConnector.setOnStartChatEventListener(function(event,data){
       // ipc start chat => socket start chat 
-        mWindowManager.createChatWindow(data)
-        mSocketConnector.sendMessage("start_chat",data)
+        mWindowManager.createChatWindow({roomName:data.socketId})
+        mSocketConnector.sendMessage("start_chat",{roomName:data.socketId,socketId:data.socketId})
     })
 }
 
@@ -124,7 +124,7 @@ function setGlobalShortcut(){
      */
     globalShortcut.register('CommandOrControl+Shift+F', () => {
       console.log('CommandOrControl+Shift+F is pressed')
-      mWindowManager.createChatWindow({roomname:"demo"})
+      mWindowManager.createChatWindow({roomName:"demo"})
         mSocketConnector.sendMessage("start_chat",{roomName:"demo"})
      //mIpcConnector.messageForFront('self_shout',{animalType:mAnimalType})
       //mWindowManager.createChatWindow({roomName:""})
