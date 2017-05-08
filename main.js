@@ -99,7 +99,7 @@ function setSocketConnectorConfiguration(){
 
   mSocketConnector.setOnShoutNotificationEventListener(function(message){
     //"shout_notification"
-    mIpcConnector.messageForFront('member_shout',{userName:message.userName,socketId:message.socketId,keywordList:message.keywordList,animalType:mAnimalType})
+    mIpcConnector.messageForFront('member_shout',{userName:message.userName,socketId:message.socketId,keywordList:message.keywordList,animalType:message.animalType})
 
     // TODO message for back to temporary stop audio and plyay animal voise
   
