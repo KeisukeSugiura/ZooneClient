@@ -4,22 +4,46 @@ class IpcConnector {
 	constructor(windowManager){
 		this.windowManager = windowManager
 		this.userName = "NoName"
+		this.animalType = "inu"
 		this.initIpcEvent()
 		this.initEventListener()
 	}
 
 	initIpcEvent(){
 		const self = this
-		ipcMain.on("login",(data)=>{
+		ipcMain.on("login",(event,data)=>{
 			// close window and create f-b windows
-			console.log("login")
 			self.windowManager.closeLoginWindow()
 			self.windowManager.createBackWindow()
 			self.windowManager.createFrontWindow()
 			self.userName = data.userName
 
-			self.onLoginEvent(data)
+			self.onLoginEvent(event,data)
 		})
+
+		ipcMain.on("start_chat",(event,data)=>{
+			// create chat window and send to
+			// ipc start chat => socket start chat 
+      		this.windowManager.createChatWindow({roomName:""})
+			self.onStartChatEvent(event,data)
+		})
+
+		ipcMain.on("shout", (event, data)=>{
+			// socket "shout_notification"
+			// get keyword
+			// fWindow ipc "self_shout"
+			self.onShoutEvent(event,data)
+		})
+
+
+	}
+
+	setUserName(userName){
+		this.userName = userName
+	}
+
+	setAnimalType(animalType){
+		this.animalType = animalType
 	}
 
 
@@ -29,7 +53,6 @@ class IpcConnector {
 	
 	messageForFront(eventName,data){
 		if(this.windowManager.fWindow){
-			console.log(data)
 			this.windowManager.fWindow.webContents.send(eventName,data)
 		}
 	}
@@ -70,16 +93,34 @@ class IpcConnector {
 	 */
 	
 	initEventListener(){
-		this.onLoginEventListener = function(data){}
-
+		this.onLoginEventListener = function(event,data){}
+		this.onShoutEventListener = function(event,data){}
+		this.onStartChatEventListener = function(event,data){}
 	}
 
-
-	onLoginEvent(data){
-		this.onLoginEventListener(data)
+	setOnLoginEventListener(callback){
+		this.onLoginEventListener = callback
 	}
 
+	setOnShoutEventListener(callback){
+		this.onShoutEventListener = callback
+	}
 
+	setOnStartChatEventListener(callback){
+		this.onStartChatEventListener = callback
+	}
+
+	onLoginEvent(event,data){
+		this.onLoginEventListener(event,data)
+	}
+
+	onShoutEvent(event,data){
+		this.onShoutEventListener(event, data)
+	}
+
+	onStartChatEvent(event,data){
+		this.onStartChatEventListener(event,data)
+	}
 	
 }
 

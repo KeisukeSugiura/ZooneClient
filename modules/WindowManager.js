@@ -13,7 +13,8 @@ class WindowManager {
 		this.lWindow = null
 		this.fWindow = null
 		this.bWindow = null
-		this.cWindows = new Map()
+		this.cWindow = null
+		this.eWindows = new Map()
 		this.serverUrl = serverUrl
 		this.screen = screen
 		this.width = screen.getPrimaryDisplay().workAreaSize.width
@@ -29,6 +30,7 @@ class WindowManager {
 		this.closeLoginWindow()
 		this.closeFrontWindow()
 		this.closeFrontWindow()
+		this.closeChatWindow()
 		this.closeAllEventWindow()	
 	}
 
@@ -54,16 +56,23 @@ class WindowManager {
 		}
 	}
 
+	closeChatWindow(){
+		if(this.cWindow){
+			this.cWindow.close()
+			this.cWindow = null
+		}
+	}
+
 	closeEventWindow(key){
-		this.cWindows.get(key).close()
-		this.cWindows.set(key,null)
+		this.eWindows.get(key).close()
+		this.eWindows.set(key,null)
 	}
 
 	closeAllEventWindow(){
-		this.cWindows.forEach((value, key, map)=>{
+		this.eWindows.forEach((value, key, map)=>{
 			value.close()
 		})
-		this.cWindows = new Map()
+		this.eWindows = new Map()
 	}
 
 	/*
@@ -98,7 +107,6 @@ class WindowManager {
 			width:self.width,
 			height:self.height,
 			frame:false,
-			titleBarStyle: 'hidden',
 			focusable: false,
 			hasShadow: false,
 			transparent: true,
@@ -124,7 +132,6 @@ class WindowManager {
 			width:self.width,
 			height:self.height,
 			frame:false,
-			titleBarStyle: 'hidden',
 			focusable: false,
 			hasShadow: false,
 			transparent: true,
@@ -140,6 +147,28 @@ class WindowManager {
 			self.bWindow = null
 		})
 
+	}
+
+	createChatWindow(data){
+		const self = this
+
+		this.cWindow = new BrowserWindow({
+			width:800,
+			height:600,
+			frame:false,
+			focusable: true,
+			hasShadow: false,
+			titleBarStyle: "hidden",
+			transparent: true,
+			fullscreen:false
+		})
+
+		this.cWindow.loadURL(this.serverUrl+"/chat"+"?"+String(data.roomName))
+		//this.cWindow.webContents.openDevTools()
+
+		this.cWindow.on('close', ()=>{
+			self.cWindow = null
+		})
 	}
 
 	createEventWindow(eventData,option){

@@ -5,16 +5,20 @@ const url = require('url')
 
 const {WindowManager} = require('./modules/WindowManager')
 const {IpcConnector} = require('./modules/IpcConnector')
+const {SocketConnector} = require('./modules/SocketConnector')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 
 const SERVER_URL = "http://localhost:55555"
 var mUserName = "NoName"
+var mAnimalType = "tiger"
 var mWindowManager = null
 var mSocketConnector = null
 var mIpcConnector = null
 var mWordManager = null
+const animalArray = ["inu", "inu2", "chinpan", "lion", "manbou", "neko", "neko2", "niwatori", "pengin", "risu", "taka", "tiger", "tokage", "uzura", "yagi", "zou"]
+
 
 function createWindow () {
   // Create the browser window.
@@ -52,12 +56,60 @@ function initialize() {
   }
     mWindowManager = new WindowManager(SERVER_URL, screen)
     mIpcConnector = new IpcConnector(mWindowManager)
-    mIpcConnector.onLoginEventListener((data)=>{
-      mUserName = data.userName
-    })
+    mSocketConnector = new SocketConnector()
+
+    setIpcConnectorConfiguration()
+    setSocketConnectorConfiguration()
 
     setGlobalShortcut()
   
+}
+
+function setIpcConnectorConfiguration(){
+
+    mIpcConnector.setOnLoginEventListener(function(event,data){
+      mUserName = data.userName
+      mAnimalType = getRandomAnimal()
+      mIpcConnector.setUserName(mUserName)
+      mIpcConnector.setAnimalType(mAnimalType)
+      //mWindowManager.createChatWindow({roomName:""})
+    })
+
+    mIpcConnector.setOnShoutEventListener(function(event,data){
+        // socket "shout_notification"
+        // get keyword
+       // fWindow ipc "self_shout"
+       mSocketConnector.sendMessage("shout_notification",{animalType:mAnimalType,userName:mUserName,keywordList:["electron","透明","click"]})
+    })
+
+
+    mIpcConnector.setOnStartChatEventListener(function(event,data){
+      // ipc start chat => socket start chat 
+        mWindowManager.createChatWindow('self_shout',{animalType:mAnimalType})
+        mSocketConnector.sendMessage("start_chat",{roomName:data.socketId})
+    })
+}
+
+function setSocketConnectorConfiguration(){
+  mSocketConnector.setOnConnectEventListener(function(message){
+    // nothing to do 
+  })
+
+  mSocketConnector.setOnShoutNotificationEventListener(function(message){
+    //"shout_notification"
+    mIpcConnector.messageForFront('member_shout',{userName:message.userName,socketId:message.socketId,keywordList:message.keywordLists,animalType:mAnimalType})
+
+    // TODO message for back to temporary stop audio and plyay animal voise
+  
+  })
+
+  mSocketConnector.setOnStartChatEventListener(function(message){
+      //"start_chat"
+      mWindowManager.createChatWindow({roomName:message.roomName})
+
+      // TODO message for back to stop capture audio
+  
+  })
 }
 
 function setGlobalShortcut(){
@@ -67,12 +119,17 @@ function setGlobalShortcut(){
      */
     globalShortcut.register('CommandOrControl+Shift+F', () => {
       console.log('CommandOrControl+Shift+F is pressed')
-      mIpcConnector.messageForFront('self_shout',{})
+      mWindowManager.createChatWindow('self_shout',{animalType:mAnimalType})
+        mSocketConnector.sendMessage("start_chat",{roomName:data.socketId})
+     //mIpcConnector.messageForFront('self_shout',{animalType:mAnimalType})
+      //mWindowManager.createChatWindow({roomName:""})
+
     })
 
     globalShortcut.register('CommandOrControl+Shift+G', () => {
       console.log('CommandOrControl+Shift+G is pressed')
-      mIpcConnector.messageForFront('member_shout',{userName:"keisukekeisuke",socketId:"aaaaaa",keywordList:["aaaa","bbbb","cccc"],animalType:"inu"})
+      //mIpcConnector.messageForFront('member_shout',{userName:mUserName,socketId:"aaaaaa",keywordList:["cmd+shift+G"],animalType:mAnimalType})
+       mSocketConnector.sendMessage("shout_notification",{animalType:mAnimalType,userName:mUserName,keywordList:["electron","透明","click"]})
     })
 
     globalShortcut.register('CommandOrControl+Shift+R', () => {
@@ -82,6 +139,15 @@ function setGlobalShortcut(){
     
 
 }
+
+ function getRandomAnimal(){
+        var rand = getRandomInt(0, animalArray.length-1)
+        return animalArray[rand]
+  }
+
+  function getRandomInt(min, max) {
+    return Math.floor( Math.random() * (max - min + 1) ) + min;
+  }
 
 
 // This method will be called when Electron has finished
