@@ -24,7 +24,7 @@ class IpcConnector {
 		ipcMain.on("start_chat",(event,data)=>{
 			// create chat window and send to
 			// ipc start chat => socket start chat 
-      		this.windowManager.createChatWindow({roomName:""})
+      		// this.windowManager.createChatWindow({roomName:""})
 			self.onStartChatEvent(event,data)
 		})
 

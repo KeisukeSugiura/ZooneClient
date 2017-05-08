@@ -81,13 +81,13 @@ class WindowManager {
 
 	createLoginWindow(){
 		const self = this
-		this.lWindow = new BrowserWindow({width: 800, height: 600})
+		this.lWindow = new BrowserWindow({width: 800, height: 600, frame:false})
 
 		// and load the index.html of the app.
 		this.lWindow.loadURL(this.serverUrl+"/login")
 
 		  // Open the DevTools.
-		this.lWindow.webContents.openDevTools()
+		//this.lWindow.webContents.openDevTools()
 
 		  // Emitted when the window is closed.
 		this.lWindow.on('closed', () => {
@@ -159,7 +159,6 @@ class WindowManager {
 
 	createChatWindow(data){
 		const self = this
-
 		this.cWindow = new BrowserWindow({
 			width:800,
 			height:600,
@@ -172,7 +171,7 @@ class WindowManager {
 		})
 
 		this.cWindow.loadURL(this.serverUrl+"/chat"+"?"+String(data.roomName))
-		this.cWindow.webContents.openDevTools()
+		//this.cWindow.webContents.openDevTools()
 
 		this.cWindow.on('close', ()=>{
 			self.cWindow = null
