@@ -12,7 +12,7 @@ const {SocketConnector} = require('./modules/SocketConnector')
 
 // const SERVER_URL = "http://localhost:55555"
 //const SERVER_URL = "http://133.68.112.250:55555"
-const SERVER_URL = "https://zooneserver.herokuapp.com/"
+const SERVER_URL = "https://zooneserver.herokuapp.com"
 var mUserName = "NoName"
 var mAnimalType = "tiger"
 var mWindowManager = null
