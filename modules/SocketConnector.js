@@ -1,5 +1,6 @@
 const io = require("socket.io-client")
-const SERVER_URL = 'http://localhost:55555'
+const SERVER_URL = 'http://133.68.112.250:55555'
+// const SERVER_URL = 'http://localhost:55555'
 
 class SocketConnector{
 	constructor(){

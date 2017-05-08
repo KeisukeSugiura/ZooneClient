@@ -10,7 +10,8 @@ const {SocketConnector} = require('./modules/SocketConnector')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 
-const SERVER_URL = "http://localhost:55555"
+// const SERVER_URL = "http://localhost:55555"
+const SERVER_URL = "http://l33.68.112.250:55555"
 var mUserName = "NoName"
 var mAnimalType = "tiger"
 var mWindowManager = null
