@@ -116,11 +116,19 @@ class WindowManager {
 		this.fWindow.loadURL(this.serverUrl+"/front")
 
 		this.fWindow.setIgnoreMouseEvents(true)
+		this.fWindowIgnoreMouseFlg = true
 		//this.fWindow.webContents.openDevTools()
 		this.fWindow.setAlwaysOnTop(true,"normal",20)
 		this.fWindow.on('close', ()=>{
 			self.fWindow = null
 		})
+	}
+
+	changeIgnoreMouseEvents(){
+		if(this.fWindow){
+			this.fWindowIgnoreMouseFlg = !this.fWindowIgnoreMouseFlg
+			this.fWindow.setIgnoreMouseEvents(this.fWindowIgnoreMouseFlg)
+		}
 	}
 
 	createBackWindow(){

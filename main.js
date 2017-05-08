@@ -140,6 +140,7 @@ function setGlobalShortcut(){
     globalShortcut.register('CommandOrControl+Shift+R', () => {
       console.log('CommandOrControl+Shift+R is pressed')
       mIpcConnector.messageForFront('change_transparent',{})
+      mWindowManager.changeIgnoreMouseEvents()
     })
     
 
