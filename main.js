@@ -121,8 +121,8 @@ function setGlobalShortcut(){
      */
     globalShortcut.register('CommandOrControl+Shift+F', () => {
       console.log('CommandOrControl+Shift+F is pressed')
-      //mWindowManager.createChatWindow('self_shout',{animalType:mAnimalType})
-        mSocketConnector.sendMessage("start_chat",{roomName:data.socketId})
+      mWindowManager.createChatWindow('self_shout',{roomname:"demo"})
+        mSocketConnector.sendMessage("start_chat",{roomName:"demo"})
      //mIpcConnector.messageForFront('self_shout',{animalType:mAnimalType})
       //mWindowManager.createChatWindow({roomName:""})
 
