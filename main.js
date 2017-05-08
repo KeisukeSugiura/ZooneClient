@@ -98,6 +98,7 @@ function setSocketConnectorConfiguration(){
 
   mSocketConnector.setOnShoutNotificationEventListener(function(message){
     //"shout_notification"
+    console.log(message)
     mIpcConnector.messageForFront('member_shout',{userName:message.userName,socketId:message.socketId,keywordList:message.keywordLists,animalType:mAnimalType})
 
     // TODO message for back to temporary stop audio and plyay animal voise
@@ -120,7 +121,7 @@ function setGlobalShortcut(){
      */
     globalShortcut.register('CommandOrControl+Shift+F', () => {
       console.log('CommandOrControl+Shift+F is pressed')
-      mWindowManager.createChatWindow('self_shout',{animalType:mAnimalType})
+      //mWindowManager.createChatWindow('self_shout',{animalType:mAnimalType})
         mSocketConnector.sendMessage("start_chat",{roomName:data.socketId})
      //mIpcConnector.messageForFront('self_shout',{animalType:mAnimalType})
       //mWindowManager.createChatWindow({roomName:""})
