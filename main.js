@@ -86,8 +86,8 @@ function setIpcConnectorConfiguration(){
 
     mIpcConnector.setOnStartChatEventListener(function(event,data){
       // ipc start chat => socket start chat 
-        mWindowManager.createChatWindow('self_shout',{animalType:mAnimalType})
-        mSocketConnector.sendMessage("start_chat",{roomName:data.socketId})
+        mWindowManager.createChatWindow('self_shout',{roomName:"dammy"})
+        mSocketConnector.sendMessage("start_chat",{roomName:"dammy"})
     })
 }
 
@@ -98,8 +98,7 @@ function setSocketConnectorConfiguration(){
 
   mSocketConnector.setOnShoutNotificationEventListener(function(message){
     //"shout_notification"
-    console.log(message)
-    mIpcConnector.messageForFront('member_shout',{userName:message.userName,socketId:message.socketId,keywordList:message.keywordLists,animalType:mAnimalType})
+    mIpcConnector.messageForFront('member_shout',{userName:message.userName,socketId:message.socketId,keywordList:message.keywordList,animalType:mAnimalType})
 
     // TODO message for back to temporary stop audio and plyay animal voise
   
