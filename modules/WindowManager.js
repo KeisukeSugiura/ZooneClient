@@ -116,7 +116,7 @@ class WindowManager {
 		this.fWindow.loadURL(this.serverUrl+"/front")
 
 		this.fWindow.setIgnoreMouseEvents(true)
-		//this.fWindow.webContents.openDevTools()
+		this.fWindow.webContents.openDevTools()
 		this.fWindow.setAlwaysOnTop(true,"normal",20)
 		this.fWindow.on('close', ()=>{
 			self.fWindow = null
