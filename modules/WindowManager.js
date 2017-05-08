@@ -164,7 +164,7 @@ class WindowManager {
 		})
 
 		this.cWindow.loadURL(this.serverUrl+"/chat"+"?"+String(data.roomName))
-		//this.cWindow.webContents.openDevTools()
+		this.cWindow.webContents.openDevTools()
 
 		this.cWindow.on('close', ()=>{
 			self.cWindow = null

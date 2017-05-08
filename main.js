@@ -87,7 +87,7 @@ function setIpcConnectorConfiguration(){
 
     mIpcConnector.setOnStartChatEventListener(function(event,data){
       // ipc start chat => socket start chat 
-        mWindowManager.createChatWindow('self_shout',{roomName:"dammy"})
+        mWindowManager.createChatWindow({roomName:"dammy"})
         mSocketConnector.sendMessage("start_chat",{roomName:"dammy"})
     })
 }
@@ -107,8 +107,11 @@ function setSocketConnectorConfiguration(){
 
   mSocketConnector.setOnStartChatEventListener(function(message){
       //"start_chat"
-      mWindowManager.createChatWindow({roomName:message.roomName})
+      var timeout = function(){
+        mWindowManager.createChatWindow({roomName:message.roomName})
+      }
 
+      setTimeout(timeout, 5000)
       // TODO message for back to stop capture audio
   
   })
