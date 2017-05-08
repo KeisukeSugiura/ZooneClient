@@ -126,7 +126,6 @@ function setGlobalShortcut(){
       console.log('CommandOrControl+Shift+F is pressed')
       mWindowManager.createChatWindow({roomName:"demo"})
         mSocketConnector.sendMessage("start_chat",{roomName:"demo"})
-     //mIpcConnector.messageForFront('self_shout',{animalType:mAnimalType})
       //mWindowManager.createChatWindow({roomName:""})
 
     })
@@ -134,6 +133,7 @@ function setGlobalShortcut(){
     globalShortcut.register('CommandOrControl+Shift+G', () => {
       console.log('CommandOrControl+Shift+G is pressed')
       //mIpcConnector.messageForFront('member_shout',{userName:mUserName,socketId:"aaaaaa",keywordList:["cmd+shift+G"],animalType:mAnimalType})
+       mIpcConnector.messageForFront('self_shout',{animalType:mAnimalType})
        mSocketConnector.sendMessage("shout_notification",{animalType:mAnimalType,userName:mUserName,keywordList:["electron","透明","click"]})
     })
 
