@@ -39,6 +39,10 @@ class SocketConnector{
     		// ipc renderer message for front and back
     		self.onShoutNotificationEvent(message)
     	})
+
+        this.socket.on('state_notification', function(message){
+            self.onStateNotificationEvent(message)
+        })
     }
 
     /*
@@ -63,6 +67,10 @@ class SocketConnector{
     	this.onShoutNotificationEventListener = callback
     }
 
+    setOnStateNotificationEventListener(callback){
+        this.onStateNotificationEvent = callback
+    }
+
     onConnectEvent(message){
     	this.onConnectEventListener(message)
     }
@@ -73,6 +81,10 @@ class SocketConnector{
 
     onShoutNotificationEvent(message){
     	this.onShoutNotificationEventListener(message)
+    }
+
+    onStateNotificationEvent(message){
+        this.onStateNotificationEvent(message)
     }
 
 }

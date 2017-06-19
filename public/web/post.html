@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="../lib/jquery.min.js"></script>
+    <script src="../lib/bootstrap.min.js"></script>
+    <script src="../lib/material-design/dist/js/material.js"></script>
+    <script src="../lib/material-design/dist/js/ripples.min.js"></script>
+    <script src="../lib/jscolor/jscolor.js"></script>
+    <script src="../lib/TweenMax/TweenMax.js"></script>
+    <script src="../lib/TweenMax/utils/Draggable.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../css/web.css">
+    <link rel="stylesheet" type="text/css" href="../lib/bootstrap/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../lib/material-design/dist/css/bootstrap-material-design.css">
+    <link rel="stylesheet" type="text/css" href="../lib/material-design/dist/css/ripples.css">
+    <link rel="../lib/bootstrap-colorpickersliders/dist/bootstrap.colorpickersliders.min.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script src="../lib/telepathy-client/lib/bson/bson.js"></script>
+    <script src="../lib/telepathy-client/lib/crypto-js/md5.js"></script>
+    <script src="../lib/telepathy-client/lib/EventEmitter/EventEmitter.js"></script>
+    <script src="../lib/telepathy-client/lib/node-uuid/uuid.js"></script>
+    <script src="../lib/telepathy-client/telepathy-client.js"></script>
+
+    <script src='../lib/spectrum/spectrum.js'></script>
+    <link rel='stylesheet' href='../lib/spectrum/spectrum.css' />
+
+    <link rel="stylesheet" href="../lib/mdl/material.min.css">
+    <script src="../lib/mdl/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-blue.min.css" />
+
+    <link rel="stylesheet" href="../lib/jquery-ui/jquery-ui.min.css">
+    <script src="../lib/jquery-ui/jquery-ui.min.js"></script>
+
+    <title>Mickr Cast(Post)</title>
+  </head>
+  <body>
+    <!-- Uses a transparent header that draws on top of the layout's background -->
+    <!-- Always shows a header, even in smaller screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title">Mickr Post</span>
+          <div class="mdl-layout-spacer"></div>
+          <nav class="mdl-navigation mdl-layout--large-screen-only">
+            <a class="mdl-navigation__link" href="http://winter.ics.nitech.ac.jp/Cast/web/web-land.html">Web Land</a>
+          </nav>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Mickr Post</span>
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="">Preview</a>
+          <a class="mdl-navigation__link" href="">Attribute</a>
+          <a class="mdl-navigation__link" href="">Animation</a>
+          <a class="mdl-navigation__link" href="">Optional</a>
+          <a class="mdl-navigation__link" href="">Canvas</a>
+        </nav>
+      </div>
+      <main class="mdl-layout__content">
+        <div class="preview-div">
+          <div id="preview" class="preview rcmnd"></div>
+          <template id="rcmnd_template">
+            <svg class="cloud" version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="300 176.5 245 180" style="enable-background:new 343.523 211.385 160.252 109.403;" xml:space="preserve">
+              <defs>
+                <radialGradient id="cloud-gradient">
+                  <stop class="stop1" offset="0%"/>
+                  <stop class="stop2" offset="100%"/>
+                </radialGradient>
+                <filter id="cloud-filter" x="-50%" y="-50%" width="200%" height="200%">
+                  <feOffset result="offOut" in="SourceGraphic" dx="0" dy="0" />
+                  <feColorMatrix result="matrixOut" in="offOut" type="matrix"
+                  values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0" />
+                  <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="10" />
+                  <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+                </filter>
+              </defs>
+              <path class="st0" d="M491.348,254.364c0.067-0.643,0.1-1.294,0.1-1.954c0-10.53-8.537-19.068-19.068-19.068
+                  c-1.038,0-2.054,0.086-3.045,0.246c-1.761-6.571-7.741-11.417-14.868-11.417c-2.479,0-4.814,0.601-6.891,1.642
+                  c-7.422-7.661-17.812-12.428-29.319-12.428c-13.639,0-25.708,6.694-33.124,16.969c-1.776-0.51-3.65-0.789-5.59-0.789
+                  c-11.17,0-20.225,9.054-20.225,20.224c0,0.567,0.029,1.127,0.075,1.684c-9.136,2.431-15.869,10.757-15.869,20.659
+                  c0,9.252,5.879,17.131,14.105,20.108c-0.145,0.854-0.237,1.725-0.237,2.621c0,8.616,6.985,15.601,15.602,15.601
+                  c2.671,0,5.184-0.674,7.382-1.857c4.336,6.022,11.403,9.946,19.39,9.946c4.801,0,9.267-1.42,13.011-3.858
+                  c3.879,4.928,9.894,8.096,16.651,8.096c3.79,0,7.345-1,10.422-2.745c2.309,0.874,4.985,1.376,7.843,1.376
+                  c4.795,0,9.084-1.41,11.966-3.629c1.977,0.493,4.042,0.76,6.172,0.76c13.647,0,24.798-10.673,25.571-24.127
+                  c7.288-3.235,12.374-10.529,12.374-19.017C503.776,264.897,498.665,257.587,491.348,254.364z">
+              </path>
+            </svg>
+            <div class="cloud_image-div">
+              <img class="cloud_image" src="">
+            </div>
+            <div class="cloud_text flexiblebox">
+              <div class="input_text" contenteditable></div>
+            </div>
+          </template>
+        </div>
+        <div class="btn-area">
+          <div class="btn-div">
+            <div class="operate-btn-div">
+              <button id="play-btn" class="operate-btn mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                <i class="material-icons">play_arrow</i>
+              </button>
+            </div>
+            <div class="operate-btn-div">
+              <button id="new-btn" class="operate-btn mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                <i class="material-icons">add</i>
+              </button>
+            </div>
+            <div class="operate-btn-div">
+              <button id="upload-btn" class="operate-btn mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                <i class="material-icons">cloud_upload</i>
+              </button>
+            </div>
+          </div>
+          <div id="text-property" class="text-property property">
+            <label class="translate-btn mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect" for="icon-toggle-1">
+              <input type="checkbox" id="icon-toggle" class="mdl-icon-toggle__input" checked>
+              <i class="mdl-icon-toggle__label material-icons">clear</i>
+            </label>
+            <div class="radio-btn-div">
+              <label class="radio-btn mdl-radio mdl-js-radio mdl-js-ripple-effect" for="radio-option-text">
+                <input type="radio" id="radio-option-text" class="mdl-radio__button" name="options" value="1">
+                <span class="mdl-radio__label">Text</span>
+              </label>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="radio-option-cloud">
+                <input type="radio" id="radio-option-cloud" class="mdl-radio__button" name="options" value="2">
+                <span class="mdl-radio__label">Cloud</span>
+              </label>
+            </div>
+            <div class="color-pallet-div">
+              <div class="color-pallet">
+                <input id="text-color" class="text-color">
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="form-horizontal mickr-setting">
+            <fieldset>
+              <legend>Mickr Cast(Post)</legend>
+              <div class="form-group">
+                <label for="inputID" class="col-md-2 control-label">ID</label>
+                <div class="col-md-10">
+                  <input type="text" class="form-control" id="ID" placeholder="ID">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputSite" class="col-md-2 control-label">Site</label>
+                <div class="col-md-10">
+                  <input type="text" class="form-control" id="Site" placeholder="Site">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputToken" class="col-md-2 control-label">Token</label>
+                <div class="col-md-10">
+                  <input type="password" class="form-control" id="Token" placeholder="Token">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-10 col-md-offset-2">
+                  <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <script src="../js/module.js"></script>
+    <script src="./post.js"></script>
+    <script>
+
+    </script>
+  </body>
+</html>

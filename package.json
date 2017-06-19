@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "electron": "^1.6.6",
+    "node-record-lpcm16": "^0.3.0",
     "socket.io-client": "^1.7.4"
   }
 }

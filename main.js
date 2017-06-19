@@ -7,6 +7,13 @@ const {WindowManager} = require('./modules/WindowManager')
 const {IpcConnector} = require('./modules/IpcConnector')
 const {SocketConnector} = require('./modules/SocketConnector')
 
+const MickrClient = require('./modules/MickrClient.js')
+const MickrWindow = require('./modules/MickrWindow.js')
+const SetMickrClientWindow = require('./modules/SetMickrClientWindow.js')
+const WindowAnimator = require('./modules/WindowAnimator.js')
+const ClipboardHandler = require('./modules/ClipboardHandler.js')
+
+const VoiceClassifier = require('./modules/VoiceClassifer.js')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 
@@ -19,7 +26,12 @@ var mWindowManager = null
 var mSocketConnector = null
 var mIpcConnector = null
 var mWordManager = null
-const animalArray = ["inu", "inu2", "chinpan", "lion", "manbou", "neko", "neko2", "niwatori", "pengin", "risu", "taka", "tiger", "tokage", "uzura", "yagi", "zou"]
+const animalArray = ["inu", "inu2", "chinpan", "lion", "manbou", "neko", "neko2", "niwatori", "pengin", "risu", "taka", "tiger", "tokage", "uzura", "yagi", "zou", "dog", "cat"]
+
+const mMickrWindowManager = new MickrWindow()
+const mMickrWindowAnimator = new WindowAnimator()
+var mMickrWindow = null
+var d = null
 
 
 function createWindow () {
@@ -64,7 +76,52 @@ function initialize() {
     setSocketConnectorConfiguration()
 
     setGlobalShortcut()
+    setMickrWindow()
   
+    startObserveVoice()
+}
+
+function startObserveVoice(){
+   VoiceClassifier.setClassifyEvent(function(className){
+    console.log(className)
+    if(String(className) != "noise"){
+      //mMickrWindow.webContents.send('clip', {text:className})
+       mSocketConnector.sendMessage("shout_notification",{animalType:String(className),userName:mUserName,keywordList:["electron","透明","click"]})
+       mIpcConnector.messageForFront('self_shout',{animalType:String(className)})
+
+    }
+  })
+   VoiceClassifier.startObserveZooneCry()
+}
+
+function setMickrWindow(){
+  d = screen
+    mMickrWindow = mMickrWindowManager.buildWindow({
+      page: 'land.html',
+      x: 0,
+      y: 0,
+      width: d.getPrimaryDisplay().workAreaSize.width,
+      height: d.getPrimaryDisplay().workAreaSize.height,
+      transparent: true,
+      ignoreMouseEvent: true,
+      AlwaysOnTop: true
+    });
+
+    mMickrWindow.focus()
+
+    mMickrWindowAnimator.setWindow(mMickrWindow);
+    mMickrWindowAnimator.initAnimation()
+    mMickrWindowAnimator.addGoAround()
+
+    ClipboardHandler.on('update', (data) => {
+      if(mMickrWindow){
+        data.around = true
+        //console.log(data);
+
+       // mMickrWindow.webContents.send('clip', data)
+      }
+    })
+    //mMickrWindow.openDevTools()
 }
 
 function setIpcConnectorConfiguration(){
@@ -115,6 +172,11 @@ function setSocketConnectorConfiguration(){
       // TODO message for back to stop capture audio
   
   })
+
+  mSocketConnector.setOnStateNotificationEventListener(function(message){
+      mMickrWindow.webContents.send('clip',message)
+  })
+
 }
 
 function setGlobalShortcut(){
