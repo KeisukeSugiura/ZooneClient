@@ -122,11 +122,44 @@ function setGlobalShortcut(){
     /*
        set shortcut event
      */
+      var i = 0
+     var shoutArray = [
+          {userName:"kyoshida",socketId:"0",keywordList:["electron", "透明"],animalType:animalArray[0]},
+          {userName:"tatsuom",socketId:"1",keywordList:["音声認識"],animalType:animalArray[1]},
+          {userName:"tobe",socketId:"2",keywordList:["言語処理"],animalType:animalArray[2]},
+          {userName:"hisatoshi",socketId:"3",keywordList:["投票"],animalType:animalArray[3]},
+          {userName:"iwasato",socketId:"4",keywordList:["マウスイベント"],animalType:animalArray[4]},
+
+          {userName:"amanom",socketId:"55",keywordList:["楽器"],animalType:animalArray[5]},
+          {userName:"moroz",socketId:"5",keywordList:["VR", "言語処理"],animalType:animalArray[6]},
+          {userName:"aratomo",socketId:"11",keywordList:["感情極性","チャット"],animalType:animalArray[7]},
+          {userName:"ashun",socketId:"0d",keywordList:["高速化","リアルタイム"],animalType:animalArray[8]},
+          {userName:"rando",socketId:"0adfa",keywordList:["electron","バスケ"],animalType:animalArray[9]},
+
+          {userName:"okayoshi",socketId:"ffd0",keywordList:["野球"],animalType:animalArray[10]},
+          {userName:"kakudat",socketId:"0aaa",keywordList:["shift control"],animalType:animalArray[11]},
+          {userName:"hikaruk",socketId:"0ggg",keywordList:["機械学習"],animalType:animalArray[12]},
+          {userName:"takatomo",socketId:"0des",keywordList:["Android"],animalType:animalArray[13]},
+          {userName:"kyoshida",socketId:"0asd",keywordList:["electron", "透明"],animalType:animalArray[14]},
+
+          {userName:"hatosho",socketId:"0fafa",keywordList:["地図"],animalType:animalArray[15]},
+          {userName:"takisho",socketId:"0ddddd",keywordList:["WebRTC"],animalType:animalArray[5]},
+          {userName:"zkun",socketId:"0eee",keywordList:["ビリヤード"],animalType:animalArray[6]},
+          {userName:"momy",socketId:"0gaga",keywordList:["まぜそば","採点"],animalType:animalArray[7]}
+
+      ] 
+
     globalShortcut.register('CommandOrControl+Shift+F', () => {
       console.log('CommandOrControl+Shift+F is pressed')
-      mWindowManager.createChatWindow({roomName:"demo"})
-        mSocketConnector.sendMessage("start_chat",{roomName:"demo"})
-      //mWindowManager.createChatWindow({roomName:""})
+     // mWindowManager.createChatWindow({roomName:"demo"})
+     //   mSocketConnector.sendMessage("start_chat",{roomName:"demo"})
+     
+      mIpcConnector.messageForFront('member_shout',shoutArray[i])
+      if(i < shoutArray.length -1){
+        i = i+1
+      }else{
+        i = 0
+      }
 
     })
 
